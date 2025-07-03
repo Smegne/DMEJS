@@ -1,0 +1,99 @@
+<!-- Training Courses Section -->
+<section id="courses" class="courses">
+  <div class="container">
+    <h2 class="section-title">Training Courses</h2>
+    <div class="row">
+
+      <% const courses = [
+        { title: 'Graphics Design', key: 'graphic_design' },
+        { title: 'Video Editing', key: 'video_editing' },
+        { title: 'Web and App Development', key: 'web_app_dev' },
+        { title: 'Digital Marketing', key: 'digital_marketing' },
+        { title: 'Computer Skills', key: 'computer_skills' },
+        { title: 'Business Training', key: 'business_training' }
+      ]; %>
+
+      <% courses.forEach(course => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="../uploads/artboard 2.jpg" alt="" width="100%" height="200px" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title"><%= course.title %></h5>
+              <p class="card-text">Start your journey with our practical and professional training.</p>
+
+              <% if (user && user.enrolledCourses && user.enrolledCourses.includes(course.key)) { %>
+                <a href="/courses/dashboard/<%= course.key %>" class="btn btn-success">Access</a>
+              <% } else { %>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal_<%= course.key %>">Apply Now</button>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Modal -->
+        <div class="modal fade" id="applyModal_<%= course.key %>" tabindex="-1" aria-labelledby="applyModalLabel_<%= course.key %>" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <form action="/courses/apply" method="POST" enctype="multipart/form-data">
+                 <input type="hidden" name="course_id" value="<%= course.id %>">
+                <input type="hidden" name="user_id" value="<%= user ? user.id : '' %>">
+
+                <div class="modal-header">
+                  <h5 class="modal-title" id="applyModalLabel_<%= course.key %>">Apply for <%= course.title %></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                  <p>Welcome to <strong><%= course.title %></strong> training!</p>
+                  <ul>
+                    <li>Learn from professional instructors</li>
+                    <li>Get lifetime access to course content</li>
+                    <li>Receive certification upon completion</li>
+                  </ul>
+
+                  <!-- Confirm to see payment -->
+                  <div class="mt-3">
+                    <p><strong>Confirm your application to view payment options:</strong></p>
+                    <button type="button" class="btn btn-outline-primary mb-3" onclick="togglePayment('<%= course.key %>')">Confirm & Show Payment</button>
+                  </div>
+
+                  <!-- Payment section -->
+                  <div id="paymentSection_<%= course.key %>" style="display: none;">
+                    <p class="mt-2"><strong>Step 1: Payment Instructions</strong></p>
+                    <ul>
+                      <li><strong>Telebirr</strong>: Send 6000 ETB to <code>0962935163</code></li>
+                      <li><strong>CBE Birr</strong>: Send 6000 ETB to the same number</li>
+                    </ul>
+
+                    <p class="text-info">After sending the payment, upload your screenshot below.</p>
+
+                    <div class="mb-3">
+                      <label for="screenshot_<%= course.key %>" class="form-label">Upload Screenshot</label>
+                      <input type="file" class="form-control" name="screenshot" id="screenshot_<%= course.key %>" required>
+                    </div>
+
+                    <p class="text-danger small mt-3">
+                      Please keep your payment proof. If you don't receive access within 24 hours, contact Dreammore.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<script>
+  function togglePayment(courseKey) {
+    const paymentSection = document.getElementById(`paymentSection_${courseKey}`);
+    if (paymentSection) paymentSection.style.display = 'block';
+  }
+</script>

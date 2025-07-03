@@ -1,0 +1,34 @@
+
+  <!-- Services Section -->
+    <section id="services"class="gradientlight">
+        <!-- <img src="../uploads/gradient  light.jpg" alt=""> -->
+        <div class="service-content">
+           
+            <img src="../uploads/artboard 2.jpg" alt="">
+            <a href="#contact" class="btn btn-primary mt-3">Order Now</a>
+        </div>
+    </section>
+    <% if (user) { %>
+        <form action="/orders/place" method="POST">
+            <input type="hidden" name="user_id" value="<%= user.id %>">
+            <div class="mb-3">
+                <label for="service_type" class="form-label">Service Type</label>
+                <select class="form-control" id="service_type" name="service_type" required>
+                    <option value="skill">Skill</option>
+                    <option value="project">Project</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="service_detail" class="form-label">Service Detail</label>
+                <select class="form-control" id="service_detail" name="service_detail" required>
+                    <option value="website">Website</option>
+                    <option value="video_editing">Video Editing</option>
+                    <option value="logo">Logo</option>
+                    <option value="poster">Poster</option>
+                    <option value="app">App</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Order Now</button>
+        </form>
+    <% } %>
+</div>
