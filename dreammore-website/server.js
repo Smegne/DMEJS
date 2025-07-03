@@ -3,7 +3,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const path = require('path');
 const multer = require('multer');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/auth'); // 👈 uses authController
 const courseRoutes = require('./routes/courses');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Routes
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes); // ✅ handles /auth/register
 app.use('/courses', courseRoutes);
 app.use('/orders', orderRoutes);
 app.use('/admin', adminRoutes);
@@ -55,7 +55,7 @@ const dummyCourses = [
 app.get('/', (req, res) => {
     res.render('home', {
         user: req.session.user || null,
-        courses: dummyCourses // 👈 Pass courses here
+        courses: dummyCourses
     });
 });
 app.get('/services', (req, res) => {
@@ -80,5 +80,5 @@ app.get('/contact', (req, res) => {
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
