@@ -48,7 +48,14 @@
   }
 
 
+#home-content a{
+            background-color: #ff7800;
+            padding: 20px;
+        }
 
+      button .signup1{
+            background-color: #010318;
+        }
 
         .dm-navbar img{
            border-radius: 50%;
@@ -78,14 +85,14 @@
             color: #f8b400 !important;
         }
         .listbtn-navbar button {
-            background-color: #ffffff;
+            background-color: #ff7800;
             border: none;
         
             padding: 5px 20px;
-          border-bottom-left-radius: 40%;
-            border-top-left-radius: 40%;
-             border-bottom-right-radius: 40%;
-            border-top-right-radius: 40%;
+          border-bottom-left-radius: 30%;
+            border-top-left-radius: 30%;
+             border-bottom-right-radius: 30%;
+            border-top-right-radius: 30%;
             font-weight: bold;
           
         }
@@ -106,7 +113,10 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
             color: white;
             background-image: url('../uploads/home3.png');
+            
         }
+      
+        .btn-primary
         .gradientlight img {
             width: 100%;
             padding: 0;
@@ -114,7 +124,11 @@
         }
         #services {
             background-color: #f8f9fa;
+            width: 100%;
             
+        }
+        .ordernow{
+            background-image: url('../uploads/background.jpg');
         }
         #courses {
             background-image: url('../uploads/background.jpg');

@@ -33,6 +33,17 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    user_name VARCHAR(100),
+    user_email VARCHAR(100),
+    user_phone VARCHAR(20),
+    service_detail VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 -- Payments table
 CREATE TABLE payments (
     id INT AUTO_INCREMENT PRIMARY KEY,

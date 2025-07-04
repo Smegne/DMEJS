@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Routes
-app.use('/auth', authRoutes); // ✅ handles /auth/register
+app.use('/auth', authRoutes);
 app.use('/courses', courseRoutes);
 app.use('/orders', orderRoutes);
 app.use('/admin', adminRoutes);
@@ -82,3 +82,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
+app.get('/thank-you', (req, res) => {
+    res.render('thank-you', { user: req.session.user });
+});
+// const adminRoutes = require('./routes/admin');
+// app.use('/admin', adminRoutes);
