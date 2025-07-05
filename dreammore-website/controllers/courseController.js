@@ -76,3 +76,82 @@ exports.submitPayment = [
         });
     }
 ];
+
+
+const pool = require('../config/db'); // import the pool
+
+exports.applyCourse = async (req, res) => {
+    console.log('DEBUG req.body:', req.body);
+    console.log('DEBUG req.file:', req.file);
+
+    const { courseKey, userId } = req.body;
+    const screenshot = req.file ? req.file.filename : null;
+
+    if (!courseKey || !userId || !screenshot) {
+        console.error('Missing courseKey, userId, or screenshot');
+        return res.status(400).send('Missing data: courseKey, userId, or payment screenshot.');
+    }
+
+    try {
+        const sql = `
+            INSERT INTO course_applications (user_id, course_key, screenshot)
+            VALUES (?, ?, ?)
+        `;
+        const [result] = await pool.execute(sql, [userId, courseKey, screenshot]);
+
+        console.log('✅ Application saved. Insert ID:', result.insertId);
+
+        // Redirect to thank-you page after successful submission
+        res.redirect('/thank-you');
+    } catch (err) {
+        console.error('❌ DB Error:', err);
+        res.status(500).send('Something went wrong. Please try again later.');
+    }
+};
+
+
+// Show dashboard with all courses
+exports.getDashboard = async (req, res) => {
+  try {
+    const [courses] = await pool.query('SELECT * FROM courses ORDER BY created_at DESC');
+    res.render('courses/dashboard', { courses });
+  } catch (err) {
+    console.error('Error fetching courses:', err);
+    res.status(500).send('Failed to load courses');
+  }
+};
+
+// Add a new course
+exports.addCourse = async (req, res) => {
+  const { title, key, description } = req.body;
+  const photo = req.file ? req.file.filename : null;
+
+  if (!title || !key) {
+    return res.status(400).send('Title and Key are required');
+  }
+
+  try {
+    await pool.query(
+      'INSERT INTO courses (name, title, description, photo) VALUES (?, ?, ?, ?)',
+      [key, title, description || '', photo]
+    );
+    console.log('✅ New course added:', title);
+    res.redirect('/courses/dashboard');
+  } catch (err) {
+    console.error('Error adding course:', err);
+    res.status(500).send('Failed to add course');
+  }
+};
+
+// Delete a course
+exports.deleteCourse = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query('DELETE FROM courses WHERE id = ?', [id]);
+    console.log('✅ Course deleted with ID:', id);
+    res.redirect('/courses/dashboard');
+  } catch (err) {
+    console.error('Error deleting course:', err);
+    res.status(500).send('Failed to delete course');
+  }
+};
