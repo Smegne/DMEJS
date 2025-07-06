@@ -1,0 +1,148 @@
+<% /* adminPortfolio.ejs - single file for list/add/edit pages */ %>
+<% include('../partials/header', { title: page === 'list' ? 'Portfolio Admin' : page === 'add' ? 'Add Portfolio Item' : 'Edit Portfolio Item' }) %>
+
+<div class="container mt-4">
+  <% if (page === 'list') { %>
+    <h1>Portfolio Items</h1>
+    <a href="/admin/portfolio/add" class="btn btn-success mb-3">Add New Portfolio Item</a>
+
+    <table class="table table-bordered table-striped align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Image</th>
+          <th>Drive URL</th>
+          <th>GitHub URL</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% portfolios.forEach(item => { %>
+          <tr>
+            <td><%= item.id %></td>
+            <td><%= item.title %></td>
+            <td><%= item.category %></td>
+            <td>
+              <% if (item.image) { %>
+                <img src="<%= item.image %>" alt="Image" style="max-width: 120px; max-height: 80px; object-fit: cover;" />
+              <% } else { %>
+                No Image
+              <% } %>
+            </td>
+            <td><a href="<%= item.drive_url %>" target="_blank" rel="noopener noreferrer"><%= item.drive_url %></a></td>
+            <td><a href="<%= item.github_url %>" target="_blank" rel="noopener noreferrer"><%= item.github_url %></a></td>
+            <td>
+              <a href="/admin/portfolio/edit/<%= item.id %>" class="btn btn-primary btn-sm">Edit</a>
+
+              <form action="/admin/portfolio/delete/<%= item.id %>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?');">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+  <% } else if (page === 'add' || page === 'edit') { %>
+
+    <h1><%= page === 'add' ? 'Add New Portfolio Item' : 'Edit Portfolio Item' %></h1>
+
+    <form
+      action="<%= page === 'add' ? '/admin/portfolio/add' : '/admin/portfolio/edit/' + portfolio.id %>"
+      method="POST"
+      enctype="multipart/form-data"
+      class="mt-3"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          required
+          type="text"
+          name="title"
+          id="title"
+          class="form-control"
+          placeholder="Enter title"
+          value="<%= page === 'edit' ? portfolio.title : '' %>"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          required
+          name="description"
+          id="description"
+          rows="4"
+          class="form-control"
+          placeholder="Enter description"
+        ><%= page === 'edit' ? portfolio.description : '' %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select name="category" id="category" class="form-select" required>
+          <option value="" disabled <%= page === 'add' ? 'selected' : '' %>>Select category</option>
+          <option value="Video Production" <%= page === 'edit' && portfolio.category === 'Video Production' ? 'selected' : '' %>>Video Production</option>
+          <option value="Design Production" <%= page === 'edit' && portfolio.category === 'Design Production' ? 'selected' : '' %>>Design Production</option>
+          <option value="Software Development" <%= page === 'edit' && portfolio.category === 'Software Development' ? 'selected' : '' %>>Software Development</option>
+        </select>
+      </div>
+
+      <% if (page === 'edit') { %>
+        <div class="mb-3">
+          <label>Current Image</label><br />
+          <% if (portfolio.image) { %>
+            <img
+              src="<%= portfolio.image %>"
+              alt="Image"
+              style="max-width: 200px; max-height: 120px; object-fit: cover;"
+            />
+          <% } else { %>
+            No image uploaded
+          <% } %>
+        </div>
+      <% } %>
+
+      <div class="mb-3">
+        <label for="image" class="form-label"><%= page === 'add' ? 'Image (JPEG, PNG, GIF)' : 'Replace Image (optional)' %></label>
+        <input type="file" name="image" id="image" class="form-control" accept="image/*" />
+      </div>
+
+      <div class="mb-3">
+        <label for="drive_url" class="form-label">Drive URL</label>
+        <input
+          type="url"
+          name="drive_url"
+          id="drive_url"
+          class="form-control"
+          placeholder="https://drive.google.com/..."
+          value="<%= page === 'edit' ? portfolio.drive_url : '' %>"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="github_url" class="form-label">GitHub URL</label>
+        <input
+          type="url"
+          name="github_url"
+          id="github_url"
+          class="form-control"
+          placeholder="https://github.com/..."
+          value="<%= page === 'edit' ? portfolio.github_url : '' %>"
+        />
+      </div>
+
+      <button type="submit" class="btn <%= page === 'add' ? 'btn-success' : 'btn-primary' %>">
+        <%= page === 'add' ? 'Add Portfolio Item' : 'Update Portfolio Item' %>
+      </button>
+      <a href="/admin/portfolio" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+
+  <% } else { %>
+    <p>Invalid page parameter!</p>
+  <% } %>
+</div>
+
+<% include('../partials/footer') %>
