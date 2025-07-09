@@ -10,7 +10,7 @@ const courseRoutes = require('./routes/courses');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
 const workerRoutes = require('./routes/worker');
-const testimonialRoutes = require('./routes/testimonial'); // Added testimonial routes
+const testimonialRoutes = require('./routes/testimonial');
 
 // Database connection (promise-based)
 const db = require('./config/db');
@@ -56,64 +56,105 @@ app.use('/courses', courseRoutes);
 app.use('/orders', orderRoutes);
 app.use('/admin', adminRoutes);
 app.use('/worker', workerRoutes);
-app.use('/', testimonialRoutes); // Mount testimonial routes here
-
-// Dummy courses array
-const dummyCourses = [
-    { title: "Web Development Bootcamp", photo: "web_dev.jpg" },
-    { title: "Graphic Design Mastery", photo: "graphic_design.jpg" },
-    { title: "Video Editing Pro", photo: "video_editing.jpg" }
-];
+app.use('/', testimonialRoutes);
 
 // Home route fetching testimonials and courses
 app.get('/', async (req, res) => {
     try {
         const [testimonials] = await db.query("SELECT * FROM testimonials");
-        res.render('home', {
-            courses: dummyCourses,
-            testimonials
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('home', { 
+            courses: courses || [], 
+            testimonials: testimonials || [], 
+            error: null 
         });
     } catch (err) {
-        console.error('Error fetching testimonials:', err);
-        res.status(500).send('Server Error');
+        console.error('Error fetching data:', err);
+        res.render('home', { 
+            courses: [], 
+            testimonials: [], 
+            error: 'Failed to load courses or testimonials' 
+        });
     }
 });
 
 // Other static routes
-app.get('/services', (req, res) => {
-    res.render('services');
+app.get('/services', async (req, res) => {
+    try {
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('services', { courses: courses || [] });
+    } catch (err) {
+        console.error('Error fetching courses:', err);
+        res.render('services', { courses: [], error: 'Failed to load courses' });
+    }
 });
-app.get('/portfolio', (req, res) => {
-    res.render('portfolio');
+app.get('/portfolio', async (req, res) => {
+    try {
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('portfolio', { courses: courses || [] });
+    } catch (err) {
+        console.error('Error fetching courses:', err);
+        res.render('portfolio', { courses: [], error: 'Failed to load courses' });
+    }
 });
-app.get('/about', (req, res) => {
-    res.render('about');
+app.get('/about', async (req, res) => {
+    try {
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('about', { courses: courses || [] });
+    } catch (err) {
+        console.error('Error fetching courses:', err);
+        res.render('about', { courses: [], error: 'Failed to load courses' });
+    }
 });
-app.get('/teams', (req, res) => {
-    res.render('teams');
+app.get('/teams', async (req, res) => {
+    try {
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('teams', { courses: courses || [] });
+    } catch (err) {
+        console.error('Error fetching courses:', err);
+        res.render('teams', { courses: [], error: 'Failed to load courses' });
+    }
 });
 
 // Testimonials page route
 app.get('/testimonials', async (req, res) => {
     try {
         const [testimonials] = await db.query("SELECT * FROM testimonials");
-        res.render('testimonials', {
-            testimonials
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('testimonials', { 
+            testimonials: testimonials || [], 
+            courses: courses || [], 
+            error: null 
         });
     } catch (err) {
         console.error('Error fetching testimonials:', err);
-        res.status(500).send('Server Error');
+        res.render('testimonials', { 
+            testimonials: [], 
+            courses: [], 
+            error: 'Failed to load testimonials' 
+        });
     }
 });
 
-app.get('/contact', (req, res) => {
-    res.render('contact');
+app.get('/contact', async (req, res) => {
+    try {
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('contact', { courses: courses || [] });
+    } catch (err) {
+        console.error('Error fetching courses:', err);
+        res.render('contact', { courses: [], error: 'Failed to load courses' });
+    }
 });
 
-app.get('/thank-you', (req, res) => {
-    res.render('thank-you');
+app.get('/thank-you', async (req, res) => {
+    try {
+        const [courses] = await db.query("SELECT * FROM courseslist");
+        res.render('thank-you', { courses: courses || [] });
+    } catch (err) {
+        console.error('Error fetching courses:', err);
+        res.render('thank-you', { courses: [], error: 'Failed to load courses' });
+    }
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;

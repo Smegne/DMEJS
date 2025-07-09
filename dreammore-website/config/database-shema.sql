@@ -69,3 +69,12 @@ CREATE TABLE course_materials (
     FOREIGN KEY (course_id) REFERENCES courses(id),
     FOREIGN KEY (worker_id) REFERENCES users(id)
 );
+
+ CREATE TABLE IF NOT EXISTS courses (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                description TEXT NOT NULL,
+                category ENUM('soft-skills', 'web-development', 'graphic-design', 'business-training', 'digital-marketing') NOT NULL,
+                imageUrl VARCHAR(255) NOT NULL,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )

@@ -3,11 +3,20 @@ const db = require('../config/db');
 // Fetch testimonials from DB
 exports.getTestimonials = async (req, res) => {
   try {
-    const [results] = await db.query("SELECT * FROM testimonials");
-    res.render("home", { testimonials: results });
+    const [testimonials] = await db.query("SELECT * FROM testimonials");
+    const [courses] = await db.query("SELECT * FROM courseslist");
+    res.render("home", { 
+      testimonials: testimonials || [], 
+      courses: courses || [], 
+      error: null 
+    });
   } catch (err) {
     console.error('❌ Error fetching testimonials:', err);
-    res.status(500).send("Server Error");
+    res.render("home", { 
+      testimonials: [], 
+      courses: [], 
+      error: 'Failed to load testimonials or courses' 
+    });
   }
 };
 
@@ -21,7 +30,7 @@ exports.showAddForm = (req, res) => {
 // Handle Add Testimonial POST
 exports.addTestimonial = async (req, res) => {
   const { name, description } = req.body;
-  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+  const photo = req.file ? `/Uploads/${req.file.filename}` : null;
 
   try {
     await db.query(
