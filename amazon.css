@@ -64,10 +64,12 @@ a {
   display: flex;
   flex: 1;
   margin: 0 20px;
+  width: 800px;
+
 }
 
 .search-bar input {
-    width: 100%;
+ width: 700px;
   flex: 1;
   padding: 15px;
   border: none;
@@ -102,7 +104,9 @@ a {
 }
 .nav-links {
   display: flex;
-  gap: 15px;
+  gap: 45px;
+  margin-left: 100px;
+  width: 100%;
 }
 
 .nav-links a {

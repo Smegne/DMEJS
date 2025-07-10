@@ -63,8 +63,12 @@ app.get('/', async (req, res) => {
     try {
         const [testimonials] = await db.query("SELECT * FROM testimonials");
         const [courses] = await db.query("SELECT * FROM courseslist");
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
         res.render('home', { 
-            courses: courses || [], 
+            courses: formattedCourses || [], 
             testimonials: testimonials || [], 
             error: null 
         });
@@ -82,37 +86,80 @@ app.get('/', async (req, res) => {
 app.get('/services', async (req, res) => {
     try {
         const [courses] = await db.query("SELECT * FROM courseslist");
-        res.render('services', { courses: courses || [] });
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
+        res.render('services', { 
+            courses: formattedCourses || [], 
+            error: null 
+        });
     } catch (err) {
         console.error('Error fetching courses:', err);
-        res.render('services', { courses: [], error: 'Failed to load courses' });
+        res.render('services', { 
+            courses: [], 
+            error: 'Failed to load courses' 
+        });
     }
 });
+
 app.get('/portfolio', async (req, res) => {
     try {
         const [courses] = await db.query("SELECT * FROM courseslist");
-        res.render('portfolio', { courses: courses || [] });
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
+        res.render('portfolio', { 
+            courses: formattedCourses || [], 
+            error: null 
+        });
     } catch (err) {
         console.error('Error fetching courses:', err);
-        res.render('portfolio', { courses: [], error: 'Failed to load courses' });
+        res.render('portfolio', { 
+            courses: [], 
+            error: 'Failed to load courses' 
+        });
     }
 });
+
 app.get('/about', async (req, res) => {
     try {
         const [courses] = await db.query("SELECT * FROM courseslist");
-        res.render('about', { courses: courses || [] });
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
+        res.render('about', { 
+            courses: formattedCourses || [], 
+            error: null 
+        });
     } catch (err) {
         console.error('Error fetching courses:', err);
-        res.render('about', { courses: [], error: 'Failed to load courses' });
+        res.render('about', { 
+            courses: [], 
+            error: 'Failed to load courses' 
+        });
     }
 });
+
 app.get('/teams', async (req, res) => {
     try {
         const [courses] = await db.query("SELECT * FROM courseslist");
-        res.render('teams', { courses: courses || [] });
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
+        res.render('teams', { 
+            courses: formattedCourses || [], 
+            error: null 
+        });
     } catch (err) {
         console.error('Error fetching courses:', err);
-        res.render('teams', { courses: [], error: 'Failed to load courses' });
+        res.render('teams', { 
+            courses: [], 
+            error: 'Failed to load courses' 
+        });
     }
 });
 
@@ -121,9 +168,13 @@ app.get('/testimonials', async (req, res) => {
     try {
         const [testimonials] = await db.query("SELECT * FROM testimonials");
         const [courses] = await db.query("SELECT * FROM courseslist");
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
         res.render('testimonials', { 
             testimonials: testimonials || [], 
-            courses: courses || [], 
+            courses: formattedCourses || [], 
             error: null 
         });
     } catch (err) {
@@ -139,20 +190,40 @@ app.get('/testimonials', async (req, res) => {
 app.get('/contact', async (req, res) => {
     try {
         const [courses] = await db.query("SELECT * FROM courseslist");
-        res.render('contact', { courses: courses || [] });
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
+        res.render('contact', { 
+            courses: formattedCourses || [], 
+            error: null 
+        });
     } catch (err) {
         console.error('Error fetching courses:', err);
-        res.render('contact', { courses: [], error: 'Failed to load courses' });
+        res.render('contact', { 
+            courses: [], 
+            error: 'Failed to load courses' 
+        });
     }
 });
 
 app.get('/thank-you', async (req, res) => {
     try {
         const [courses] = await db.query("SELECT * FROM courseslist");
-        res.render('thank-you', { courses: courses || [] });
+        const formattedCourses = courses.map(course => ({
+            ...course,
+            price: parseFloat(course.price) || 0
+        }));
+        res.render('thank-you', { 
+            courses: formattedCourses || [], 
+            error: null 
+        });
     } catch (err) {
         console.error('Error fetching courses:', err);
-        res.render('thank-you', { courses: [], error: 'Failed to load courses' });
+        res.render('thank-you', { 
+            courses: [], 
+            error: 'Failed to load courses' 
+        });
     }
 });
 
