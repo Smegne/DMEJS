@@ -52,6 +52,10 @@
     <!-- Search bar -->
     <div class="mb-6 flex justify-between items-center">
       <input type="text" id="searchInput" class="w-1/2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Search courses by title..." onkeyup="filterCourses()">
+
+      <a href="/admin/dashboard" class="btn btn-success btn-lg">
+        ↩️Back 
+    </a>
       <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" data-bs-toggle="modal" data-bs-target="#addCourseModal">Add New Course</button>
     </div>
 
@@ -79,7 +83,7 @@
                 <td class="px-4 py-2"><%= course.description || 'No description' %></td>
                 <td class="px-4 py-2">$<%= (parseFloat(course.price) || 0).toFixed(2) %></td>
                 <td class="px-4 py-2">
-                  <button class="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300" onclick="toggleApplicants('<%= course.title.replace(/\s+/g, '_') %>')">
+                  <button class="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300" onclick="toggleApplicants('<%= course.title.replace(/\s+/g, ',') %>')">
                     Show Applicants (<%= course.applicants ? course.applicants.length : 0 %>)
                   </button>
                 </td>

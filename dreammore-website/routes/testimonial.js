@@ -6,10 +6,10 @@ const testimonialController = require('../controllers/testimonialController');
 // Configure multer for photo uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/uploads/'); // Save uploaded photos here
+        cb(null, 'public/uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname); // Unique filename
+        cb(null, Date.now() + '-' + file.originalname);
     }
 });
 const upload = multer({ storage });
@@ -17,10 +17,20 @@ const upload = multer({ storage });
 // Route: Home page (list testimonials)
 router.get('/', testimonialController.getTestimonials);
 
-// Route: Show admin form to add testimonial
-router.get('/admin/add-testimonial', testimonialController.showAddForm);
+// Route: Show form to add testimonial
+router.get('/admin/add-testimonial', testimonialController.showForm);
 
-// Route: Handle testimonial form submission
+// Route: Handle add testimonial POST
 router.post('/admin/add-testimonial', upload.single('photo'), testimonialController.addTestimonial);
+
+// Route: Show form to edit testimonial
+router.get('/admin/edit-testimonial/:id', testimonialController.showForm);
+
+// Route: Handle edit testimonial POST
+router.post('/admin/edit-testimonial/:id', upload.single('photo'), testimonialController.editTestimonial);
+
+// Route: Handle delete testimonial
+router.get('/admin/delete-testimonial/:id', testimonialController.deleteTestimonial);
+router.get('/admin/testimonials', testimonialController.showAdminTestimonials);
 
 module.exports = router;

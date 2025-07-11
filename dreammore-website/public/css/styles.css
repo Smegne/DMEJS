@@ -115,6 +115,9 @@
             background-image: url('../uploads/home3.png');
             
         }
+        .btget{
+            border-radius: 50%;
+        }
       
         .btn-primary
         .gradientlight img {

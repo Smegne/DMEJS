@@ -1,6 +1,6 @@
 <section id="courses" class="py-5">
   <div class="container">
-    <h2 class="section-title text-center mb-4">Training Courses</h2>
+    <h2 class="section-title text-center mb-4" style="color: #ffffff; margin-bottom: 50px; padding-bottom: 50px;">Training Courses</h2>
     <% if (error) { %>
       <div class="alert alert-danger text-center"><%= error %></div>
     <% } %>
@@ -69,7 +69,7 @@
                             <!-- Step 1: Payment Instructions -->
                             <div id="step1_<%= course.title.replace(/\s+/g, '_') %>" class="content" role="tabpanel" aria-labelledby="step1_trigger_<%= course.title.replace(/\s+/g, '_') %>">
                               <h5 class="mb-3">Step 1: Make Payment</h5>
-                              <p>Please send <strong>6000 ETB</strong> using one of the following methods:</p>
+                              <p>Please send <strong> <%= courses.title %>  </strong> using one of the following methods:</p>
                               <ul class="list-group mb-4">
                                 <li class="list-group-item"><strong>Telebirr</strong>: Send to <code>0962937103</code></li>
                                 <li class="list-group-item"><strong>CBE Birr</strong>: Send to <code>0962937100</code></li>

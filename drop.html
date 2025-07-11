@@ -1,3 +1,270 @@
 
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Modal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #010318;
+            --accent-orange: #ff7800;
+            --white: #ffffff;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Modal styling */
+        #signUpModal .modal-content {
+            background-color: var(--white);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(1, 3, 24, 0.2);
+            overflow: hidden;
+        }
+        
+        #signUpModal .modal-header {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        
+        #signUpModal .modal-title {
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        
+        #signUpModal .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        #signUpModal .btn-close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+        
+        #signUpModal .modal-body {
+            padding: 2rem;
+        }
+        
+        #signUpModal .modal-footer {
+            border-top: none;
+            padding: 0 2rem 2rem;
+        }
+        
+        /* Form styling */
+        #signUpModal .form-label {
+            font-weight: 500;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        #signUpModal .form-control {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+        
+        #signUpModal .form-control:focus {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 0.25rem rgba(255, 120, 0, 0.25);
+            background-color: var(--white);
+        }
+        
+        /* Animated input field borders */
+        #signUpModal .form-control {
+            position: relative;
+            z-index: 1;
+        }
+        
+        #signUpModal .form-control:hover {
+            border-color: var(--accent-orange);
+        }
+        
+        /* Button styling */
+        #signUpModal .btn-success {
+            background-color: var(--accent-orange);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #signUpModal .btn-success:hover {
+            background-color: #e06b00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 120, 0, 0.3);
+        }
+        
+        #signUpModal .btn-success:active {
+            transform: translateY(0);
+        }
+        
+        /* Sign in link button */
+        #signUpModal .btn-link {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        #signUpModal .btn-link:hover {
+            color: #e06b00;
+        }
+        
+        #signUpModal .btn-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-orange);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        
+        #signUpModal .btn-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        /* Ripple effect for button */
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            #signUpModal .modal-dialog {
+                margin: 1rem;
+            }
+            
+            #signUpModal .modal-body,
+            #signUpModal .modal-footer {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="/auth/signup" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signUpModalLabel">Create Your Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="signupEmail" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="signupPassword" name="password" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <span>Already have an account? </span>
+                        <button type="button" class="btn btn-link p-0 ms-1" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success w-100" id="signUpButton">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Ripple effect for the sign up button
+    document.getElementById('signUpButton').addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+    
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('signupPassword');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
+</body>
+</html>
